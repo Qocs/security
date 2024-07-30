@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Hello World!</title>
+    <!-- Thymeleaf와 Spring security를 통합하여 인증된 사용자에게 사용자 이름을 표시하고, 로그아웃을 할 수 있는 양식을 제공한다. !-->
 </head>
 <body>
-<h1>Hello world!</h1>
+<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </body>
 </html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Security Example</title>
+    <!-- Spring Security는 해당 요청을 가로채서 사용자를 인증하는 필터를 제공한다. !-->
+    <!-- 인증에 실패하면 원래 페이지로 리디렉션되고, /login?error 페이지에 적절한 오류 메시지가 표시된다. 성공적으로 로그아웃하면 애플리케이션으로 전송되고, /login?logout 페이지에 적절한 성공 메시지가 표시된다. !-->
+</head>
+<body>
+    <div th:if="${param.error}">
+        사용자 이름과 비밀번호가 유효하지 않습니다.
+    </div>
+    <div th:if="${param.logout}">
+        로그아웃되었습니다.
+    </div>
+    <form th:action="@{/login}" method="post">
+        <div><label> User Name : <input type="text" name="username"/></label></div>
+        <div><label> Password : <input type="password" name="password"/></label></div>
+        <div><input type="submit" value="Sign in"/></div>
+    </form>
+</body>
+</html>
