@@ -9,10 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@Builder
 @Table(name = "USER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class User {
 
     @Id
@@ -40,4 +38,24 @@ public class User {
     private UserStatus userStatus;
 
     private LocalDate createdAt;
+
+    @Builder
+    public User(String name, String email, String password, String phoneNum, String imgUrl) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNum = phoneNum;
+        this.imgUrl = imgUrl;
+        this.userStatus = UserStatus.GENERAL;
+        this.createdAt = LocalDate.now();
+    }
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void updateStatus(UserStatus newStatus) {
+        this.userStatus = newStatus;
+    }
+
 }
