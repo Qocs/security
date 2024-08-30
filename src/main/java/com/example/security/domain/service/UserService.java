@@ -1,7 +1,7 @@
 package com.example.security.domain.service;
 
 import com.example.security.domain.User;
-import com.example.security.domain.UserRegisterDto;
+import com.example.security.domain.dto.UserRegisterDto;
 import com.example.security.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

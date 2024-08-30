@@ -1,5 +1,6 @@
 package com.example.security.securingweb;
 
+import com.example.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()) // 그 외의 모든 url은 인증 필요.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //세션 관리 정책 구성. 세션을 생성하지 않고 무상태 설정.
                 .authenticationProvider(authenticationProvider) //커스텀 authenticationProvider를 사용하겠다.
-                .addFilterBefore(new JwtAuthenticationFilter(jwtAuthFilter), UsernamePasswordAuthenticationFilter.class); //JWT 인증 필터를 UsernamePasswordAuthenticationFilter 전에 추가.
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); //JWT 인증 필터를 UsernamePasswordAuthenticationFilter 전에 추가.
 
         return http.build();
     }
