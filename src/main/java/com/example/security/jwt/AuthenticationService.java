@@ -33,4 +33,8 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+    public AuthenticationResponse login(UserRegisterDto registerDto) {
+        return
+    }
 }
