@@ -17,8 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  JWT 필터를 보안 체인에 추가
     UsernamePasswordAuthenticationFilter의 역할 : 전통적인 폼 로그인 기반 로그인을 처리. 사용자명과 비밀번호를 이용한 인증 담당
     JWT는 상태를 저장하지 않는 무상태 인증 방식이다. 모든 필요한 정보를 토큰에 담고 있다.
-    JWT 필터를 앞에 두는 이유는 JWT 토큰이 요청에 포함되어 있다면, 이미 인증된 사용자로 간주할 수 있다.
-    UsernamePassswordAuthenticationFilter 이전에 JWT 인증을 처리함으로써, 이미 인증된 사용자는 추가적인 인증 과정을 거치지 않아도 된다.
+    JWT 필터를 앞에 두는 이유 : JWT 필터를 앞에 두는 이유는 JWT 토큰이 요청에 포함되어 있다면, 이미 인증된 사용자로 간주할 수 있다.
+                            UsernamePassswordAuthenticationFilter 이전에 JWT 인증을 처리함으로써, 이미 인증된 사용자는 추가적인 인증 과정을 거치지 않아도 된다.
+    성능 효율성 : JWT 인증을 먼저 처리함으로써 불필요한 DB 조회나 세션 관리를 줄일 수 있다.
+    유연성 제공 : JWT 인증과 전통적인 폼 로그인 기반 인증을 동시에 처리할 수 있다.
+                JWT 토큰이 없거나 유효하지 않은 경우, 다음 필터인 UsernamePasswordAuthenticationFilter에서 폼 기반 인증을 시도할 수 있다.
  URL 별 접근 권한 설정
  */
 @Configuration
