@@ -41,12 +41,25 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) //REST API 환경에서는 csrf를 사용하지 않는다. 브라우저의 쿠키에 정보를 저장하지 않기 때문.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth").permitAll() ///api/v1/auth/경로에 대한 url은 인증 없이 접근 가능.
+                        .requestMatchers("/api/v1/auth", "/oauth2/**").permitAll() ///api/v1/auth/경로와 oauth2 로그인 경로에 대한 url은 인증 없이 접근 가능.
                         .anyRequest().authenticated()) // 그 외의 모든 url은 인증 필요.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //세션 관리 정책 구성. 세션을 생성하지 않고 무상태 설정.
                 .authenticationProvider(authenticationProvider) //커스텀 authenticationProvider를 사용하겠다.
+                .oauth2Login(oauth2 -> oauth2 // Oauth2 로그인 설정
+                        .loginPage("/oauth2/authorization/google") //로그인 페이지 경로 설정
+                        .defaultSuccessUrl("/loginSuccess") // 로그인 성공 후 리다이렉션할 url
+                        .failureUrl("/loginFailure") // 로그인 실패 후 리다이렉션할 url
+                        .userInfoEndpoint(userInfo -> userInfo // 사용자 정보를 가져오는 엔드포인트
+                                .oidcUserService(this.oidcUserService()) // Google OIDC 사용자 정보 서비스
+                        )
+                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); //JWT 인증 필터를 UsernamePasswordAuthenticationFilter 전에 추가.
 
         return http.build();
+    }
+
+    // OIDC 사용자 서비스 설정
+    private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+        return new OidcUserService();
     }
 }
